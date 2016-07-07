@@ -12,6 +12,13 @@
 //マクロ定義
 //--------------------------------------
 //構造体宣言
+c_Light::c_Light()
+{
+	m_bLookAtTarget		= false;
+	m_nMoveMode	= MOVE_MODE_MAX;
+	m_nRecTime	= 0;
+	m_nMaxTime	= MAX_MOVE_TIME;
+}
 
 c_Light::~c_Light()
 {
@@ -62,7 +69,7 @@ void c_Light::CreatLightSunDefault(int name)
 	m_pLight->Attenuation0	= 1.0f;
 	m_pLight->Attenuation1	= 0.1f;
 	m_pLight->Attenuation2	= 0.0f;
-
+	m_bLookAtTarget		= false;
 	g_pD3DDevice->SetLight(m_nLightNumber, m_pLight);
 	g_pD3DDevice->LightEnable(m_nLightNumber,TRUE);
 }
@@ -91,7 +98,32 @@ void c_Light::CreatLightSpotDefault(int name,D3DXVECTOR3* target,D3DXVECTOR3 pos
 	g_pD3DDevice->SetLight(m_nLightNumber, m_pLight);
 	g_pD3DDevice->LightEnable(m_nLightNumber,TRUE);
 }
-
+void c_Light::CreatLightSpotDefault(int name,D3DXVECTOR3 target,D3DXVECTOR3 pos)
+{
+	m_pLight			= new D3DLIGHT9;
+	ZeroMemory(m_pLight,sizeof(D3DLIGHT9));
+	m_nLightNumber		= name;
+	m_pLight->Type		= D3DLIGHT_SPOT;
+	m_pLight->Position	= pos;
+	D3DXVECTOR3 dir;
+	D3DXVec3Normalize(&dir,&target);
+	m_pLight->Direction	= dir;
+	m_pLight->Diffuse	= D3DXCOLOR(1.0f/255, 50.0f/255, 1.0f/255, 1.0f);
+	m_pLight->Specular	= D3DXCOLOR(0.3f, 0.0f, 0.2f, 0.3f);
+	m_pLight->Ambient	= D3DXCOLOR(0.0f, 0.0f, 0.0f, 0.4f);
+	m_pLight->Attenuation0	= 0.0f;
+	m_pLight->Attenuation1	= 0.1f;
+	m_pLight->Attenuation2	= 0.0f;
+	m_pLight->Falloff		= 1.0f;
+	m_pLight->Phi			= D3DXToRadian(90.0f);
+	m_pLight->Theta			= D3DXToRadian(60.0f);
+	m_pLight->Range			= 10.0f;
+	m_vTargetPos = new D3DXVECTOR3;
+	*m_vTargetPos = target;
+	m_bLookAtTarget = true;
+	g_pD3DDevice->SetLight(m_nLightNumber, m_pLight);
+	g_pD3DDevice->LightEnable(m_nLightNumber,TRUE);
+}
 void c_Light::SetLightState(int STATE,D3DXVECTOR3 pos)
 {
 	if(STATE == LIGHT_STATS_POSITION)
@@ -157,8 +189,23 @@ void c_Light::SwitchForLight(bool input)
 {
 	g_pD3DDevice->LightEnable(m_nLightNumber, input);
 }
-void c_Light::Update(void)
+void c_Light::UpdateLight(void)
 {
+	switch(m_nMoveMode)
+	{
+	case MOVE_MODE_REVOLUTION:
+		m_Physic.EllipseRevolution(m_nMaxTime,
+									&m_nRecTime,
+									&m_pLight->Position.x,
+									&m_pLight->Position.y,
+									REVLUTION_RANGE_A,REVLUTION_RANGE_B);
+		g_pD3DDevice->SetLight(m_nLightNumber, m_pLight);
+		break;
+	case MOVE_MODE_MAX:
+
+		break;
+	}
+
 	if(m_bLookAtTarget == true)
 	{
 		D3DXVECTOR3 dir;
@@ -170,7 +217,7 @@ void c_Light::Update(void)
 	}
 
 }
-void c_Light::Uninit(void)
+void c_Light::UninitLight(void)
 {
 	g_pD3DDevice->LightEnable(m_nLightNumber, FALSE);
 	if(m_pLight) m_pLight = NULL;

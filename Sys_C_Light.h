@@ -6,8 +6,7 @@
 //--------------------------------------
 //システムインクルード
 #include "Sys_Include.h"
-#include "Sys_Macro.h"
-#include "Sys_Global_Variable.h"
+#include "Sys_C_Physic.h"
 //--------------------------------------
 //マスターズインクルード
 //--------------------------------------
@@ -36,13 +35,22 @@ typedef enum
 //クラス宣言
 class c_Light
 {
+#define MAX_MOVE_TIME		(4 * 60)
+#define REVLUTION_RANGE_A	(6.0f)
+#define REVLUTION_RANGE_B	(4.0f)
 public:
-	//c_Light();
+	typedef enum
+	{
+		MOVE_MODE_REVOLUTION = 0,
+		MOVE_MODE_MAX,
+	}MOVE_MODE;
+	c_Light();
 	~c_Light();
 	void CreatLightTYPE(D3DLIGHTTYPE nType,int  name);
 	void CreatLightPointDefault(int name);
 	void CreatLightSunDefault(int name);
 	void CreatLightSpotDefault(int name,D3DXVECTOR3* target,D3DXVECTOR3 pos);
+	void CreatLightSpotDefault(int name,D3DXVECTOR3  target,D3DXVECTOR3 pos);
 	void SetLightState(int STATE,D3DXVECTOR3 pos);
 	void SetLightState(int STATE,float fInput);
 	void SetLightState(int STATE,D3DXCOLOR fInput);
@@ -51,13 +59,18 @@ public:
 	void ActiveLightSYS(void);
 	void SwitchForLight(bool);
 
-	virtual void Update(void);
-	virtual void Uninit(void);
+	virtual void UpdateLight(void);
+	virtual void UninitLight(void);
 
 	D3DLIGHT9*		m_pLight;
 	int				m_nLightNumber;
 	bool			m_bLookAtTarget;
 	D3DXVECTOR3*	m_vTargetPos;
+
+	c_Physic		m_Physic;
+	int				m_nMoveMode;
+	int				m_nRecTime;
+	int				m_nMaxTime;
 };
 
 #endif

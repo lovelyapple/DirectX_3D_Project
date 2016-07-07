@@ -15,10 +15,6 @@ void c_Test_Mgr::Init_Test_Mgr(void)
 	m_pCamera->SetCameraPos(D3DXVECTOR3(0.0f,3.0f,-10.0f),D3DXVECTOR3(0.0f,0.0f,0.0f));
 	m_pCamera->SystemSet_D3DTVIEW();
 
-	m_pLight		= new c_Light;
-	m_pLight->CreatLightSunDefault(0);
-	m_pLight->ActiveLightSYS();
-
 	m_pObject		= new c_Test_model;
 	m_pObject->Init_LoadModel();
 
@@ -30,17 +26,20 @@ void c_Test_Mgr::Init_Test_Mgr(void)
 
 	m_pFont			= new c_Font;
 	m_pFont->CreatFont(NULL,0.0f);
+
+	m_pLight_Mgr	= new c_Light_Mgr;
+	m_pLight_Mgr->Init_LightMgr();
+
 }
 void c_Test_Mgr::Update_Test_Mgr(void)
 {
+	m_pLight_Mgr->Update_LightMgr();
 	m_pCamera->UpdateCameraRavolution();
 	m_pObject->UpdateModel();
 	m_pPrimitive->Update_PrimitiveNormal();
 }
 void c_Test_Mgr::Uninit_Test_Mgr(void)
 {
-	m_pLight->Uninit();
-	SAFE_DELETE(m_pLight);
 	m_pObject->UninitModel();
 	SAFE_DELETE(m_pObject);
 	m_pCamera->UninitCamera();
@@ -49,12 +48,15 @@ void c_Test_Mgr::Uninit_Test_Mgr(void)
 	m_pPrimitive->Uninit_Primitive();
 	SAFE_DELETE(m_pPrimitive);
 
+	m_pLight_Mgr->Uninit_LightMgr();
+	SAFE_DELETE(m_pLight_Mgr);
+
 	SAFE_DELETE(m_pFont);
 }
 void c_Test_Mgr::Draw_Test_Mgr(void)
 {
-	m_pLight->Update();
 	m_pCamera->DrawCamera();
+
 	m_pObject->DrawModel();
 	m_pPrimitive->DrawPrimitive();
 	m_pFont->DrawCord("This is a Test",9999,D3DXVECTOR3(0.0f,0.0f,0.0f));

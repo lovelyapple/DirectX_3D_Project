@@ -119,6 +119,21 @@ void c_Physic::FreeFallRealTime(D3DXVECTOR3* speed)
 {
 	speed->y -= PHYSIC_G_VALUE / FOVY;
 }
-			//touched = HitCheckDirection2D(Wkpos,PLAYER_WIDTH,PLAYER_HEIGHT,
-			//								m_pStage->m_uBlock[y][x]->m_vPos,BLOCK_SIZE*0.5f,BLOCK_SIZE*0.5f,
-			//								WkSpeed,HIT_DIR_DOWN,5);
+void c_Physic::EllipseRevolution(int mF, int *rF, float *X,float *Y,float a,float b)
+{
+	int	QuarterFrame = mF / 4;
+	*rF = (*rF + 1) % mF;
+	switch((int)(*rF / QuarterFrame))
+	{
+	case 0:
+	case 1:	*X = (2*a) - (*rF * 2 * a / (2 * QuarterFrame)) - a;
+		*Y = sqrtf((a*a*b*b - b*b*(*X)*(*X))/(a*a));
+		break;
+	case 2:		
+	case 3:	*X = (*rF - (2 * QuarterFrame)) * 2 * a / (2 * QuarterFrame) - a;
+		*Y = -sqrtf((a*a*b*b - b*b*(*X)*(*X))/(a*a));
+		break;
+	}
+
+	
+}

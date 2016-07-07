@@ -8,7 +8,6 @@
 #include "Sys_Include.h"
 //--------------------------------------
 //マスターズインクルード
-#include "Sys_C_Light.h"
 #include "Sys_C_Camera.h"
 #include "Sys_C_Font.h"
 #include "Sys_C_Primitive3D.h"
@@ -19,6 +18,7 @@
 
 //--------------------------------------
 //マネージャーインクルード
+#include "C_Light_Mgr.h"
 //--------------------------------------
 //マクロ定義
 //--------------------------------------
@@ -37,11 +37,11 @@ public:
 	bool GetTestMgrUse(void);						// テストマネージャの取得
 private:
 	bool						m_bTestVersion;		// テストMGR起用するか
-	c_Light*					m_pLight;			// テスト用のライト
 	c_Test_model*				m_pObject;			// テスト用の3Dオブジェクト
 	c_Camera*					m_pCamera;			// テスト用のカメラ
 	c_Font*						m_pFont;			// テスト用のフォント
 	c_Primitive*				m_pPrimitive;		// テスト用のプリミティブ描画
+	c_Light_Mgr*				m_pLight_Mgr;		// 光源マネージャ
 };
 
 //--------------------------------------

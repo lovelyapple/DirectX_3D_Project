@@ -45,6 +45,7 @@ public:
 	bool HitCheckDirection2D(D3DXVECTOR3 BodyPos, float BodySizeX,float BodySizeY,
 						D3DXVECTOR3 BoxPos, float BoxSizeX,float BoxSizeY,
 						D3DXVECTOR3 BodySpeed,HIT_DIR Direction,float checkRange);
+	void EllipseRevolution(int mF, int *rF, float *X,float *Y,float a,float b);
 private:
 };
 #endif

@@ -60,6 +60,9 @@
     <Filter Include="ソース ファイル\Game_Player_Objects\Game_Player_Objects_H">
       <UniqueIdentifier>{3b957978-575b-4b1b-8779-7dfd7d8de91f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Game_Class_Mgr\Game_Class_Mgr_H">
+      <UniqueIdentifier>{8ac9528b-2bf1-40c2-9280-09a6b62ce111}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sys_Main.cpp">
@@ -118,6 +121,9 @@
     </ClCompile>
     <ClCompile Include="C_GameMgr_Player.cpp">
       <Filter>ソース ファイル\Game_Player_Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="C_Light_Mgr.cpp">
+      <Filter>ソース ファイル\Game_Class_Mgr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -183,6 +189,9 @@
     </ClInclude>
     <ClInclude Include="C_GameMgr_Player.h">
       <Filter>ソース ファイル\Game_Player_Objects\Game_Player_Objects_H</Filter>
+    </ClInclude>
+    <ClInclude Include="C_Light_Mgr.h">
+      <Filter>ソース ファイル\Game_Class_Mgr\Game_Class_Mgr_H</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
